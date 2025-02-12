@@ -2,7 +2,10 @@ import Foundation
 
 public struct WhiteList: Decodable {
     var licenses: [String]?
+    /// Private or otherwise valid libraries can be added here
     var libraries: [String]?
+    /// If a package is known to have a license but lacks a license file, it can be added here
+    var knownLicenses: [String:String]?
 
     public init(licenses: [String]?, libraries: [String]?) {
         self.licenses = licenses
@@ -17,16 +20,11 @@ public struct WhiteList: Decodable {
         self = whiteList
     }
 
-    public func contains(_ libraryName: String, licenseType: LicenseType) -> Bool {
-        if let libraries, libraries.contains(libraryName) {
-            true
-        } else if licenseType == .unknown {
-            false
-        } else if let licenses {
-            licenses.map({ $0.lowercased() }).contains(licenseType.lowercased)
-        } else {
-            false
-        }
+    public func contains(library libraryName: String) -> Bool {
+        return libraries?.contains(libraryName) == true
+    }
+    public func knownLicense(for libraryName: String) -> LicenseType? {
+        return knownLicenses?[libraryName].flatMap({ LicenseType(rawValue: $0) })
     }
 
     static func load(url: URL) -> WhiteList? {

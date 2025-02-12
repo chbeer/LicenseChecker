@@ -18,8 +18,11 @@ public struct PackageParser {
                 let repositoryName = components.last!.replacingOccurrences(of: ".git", with: "")
                 let directoryURL = URL(fileURLWithPath: checkoutsPath).appendingPathComponent(repositoryName)
                 let libraryName = dependency.packageRef.name
-                let licenseType = extractLicense(directoryURL: directoryURL)
-                let isForbidden = !whiteList.contains(libraryName, licenseType: licenseType)
+                var licenseType = extractLicense(directoryURL: directoryURL)
+                if let license = whiteList.knownLicense(for: libraryName) {
+                    licenseType = license
+                }
+                let isForbidden = licenseType == .unknown && !whiteList.contains(library: libraryName)
                 return Acknowledgement(
                     libraryName: libraryName,
                     licenseType: licenseType,
