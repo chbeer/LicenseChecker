@@ -12,5 +12,6 @@ let registeredMatchers: [LicenseMatcher] = [
     BSDMatcher(),
     BoringSSLMatcher(),
     ZLIBMatcher(),
-    PayPalMatcher()
+    PayPalMatcher(),
+    EUPLMatcher()
 ]

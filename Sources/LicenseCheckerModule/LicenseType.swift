@@ -5,6 +5,7 @@ public enum LicenseType: String {
     case zlib = "zlib"
     case boringSSL = "BoringSSL"
     case paypal = "PayPal"
+    case eupl = "EUPL"
     case unknown = "unknown"
 
     public var lowercased: String {
