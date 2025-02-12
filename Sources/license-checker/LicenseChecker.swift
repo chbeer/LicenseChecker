@@ -6,7 +6,7 @@ struct LicenseChecker: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "license-checker",
         abstract: "A tool to check license of swift package libraries.",
-        version: "2.0.0"
+        version: "2.1.0"
     )
 
     @Option(
@@ -40,6 +40,7 @@ struct LicenseChecker: ParsableCommand {
     var tab: Bool = false
 
     mutating func run() throws {
+        print("LicenseChecker (\(LicenseChecker.configuration.version))")
         do {
             try LCMain().run(
                 sourcePackagesPath: sourcePackagesPath,
