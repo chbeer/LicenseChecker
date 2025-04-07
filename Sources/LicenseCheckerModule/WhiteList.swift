@@ -21,7 +21,8 @@ public struct WhiteList: Decodable {
     }
 
     public func contains(library libraryName: String) -> Bool {
-        return libraries?.contains(libraryName) == true
+        guard let libraries else { return false }
+        return libraries.contains(where: { $0.caseInsensitiveCompare(libraryName) == .orderedSame })
     }
     public func knownLicense(for libraryName: String) -> LicenseType? {
         return knownLicenses?[libraryName].flatMap({ LicenseType(rawValue: $0) })
